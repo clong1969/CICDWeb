@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      with:
+          login-server: cwldemo1.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+    - run: |
+          docker build . -t cwldemo1.azurecr.io/[YOUR IMAGE NAME]:latest
+          docker push cwldemo1.azurecr.io/[YOUR IMAGE NAME]:latest
